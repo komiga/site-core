@@ -4,8 +4,8 @@ minify = true
 
 {@ "core/bits/microdata/tags", {
 	scoped = true,
-	itype = "WebPageElement",
-	prop = "mainContentOfPage",
+	itype = "Article",
+	prop = "articleBody",
 } @}
 
 {% end %}
