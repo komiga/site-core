@@ -25,7 +25,16 @@ local page_vf = P.ValueFilter("Page")
 	return value
 end)
 
-function M:__init(source, file, destination)
+function M.compose(vf, bucket, values)
+	U.type_assert(vf, P.ValueFilter)
+	U.type_assert(bucket, "table", true)
+	U.type_assert(values, "table", true)
+	return function(source, file, destination)
+		return M(source, file, destination, vf, bucket, values)
+	end
+end
+
+function M:__init(source, file, destination, vf, bucket, values)
 	source = P.path(source, file)
 	self.template = P.Template(source, nil, nil)
 
@@ -37,10 +46,15 @@ function M:__init(source, file, destination)
 		url = "/" .. file,
 		nav = {},
 	}
-	self.template:prelude(prelude)
 	page_vf:consume(self, prelude)
+	if values then
+		page_vf:consume(self, values, vf)
+	end
+	self.template:prelude(prelude)
+	page_vf:consume(self, prelude, vf)
 
-	Site.pages[self.url] = self
+	self.bucket = bucket or Site.pages
+	self.bucket[self.url] = self
 	P.output(source, P.path(destination, file), self, self)
 end
 
@@ -56,9 +70,9 @@ function M:write(source, destination, _)
 end
 
 function M:replace(repl, o, op)
-	Site.pages[self.url] = nil
+	self.bucket[self.url] = nil
 	P.replace_fields(self, repl)
-	Site.pages[self.url] = self
+	self.bucket[self.url] = self
 	return true
 end
 

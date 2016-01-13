@@ -21,18 +21,27 @@ function M.find(given)
 	end
 end
 
-function M:__init(source, file, destination)
+function M.compose(vf, values)
+	U.type_assert(vf, P.ValueFilter)
+	return function(source, file, destination)
+		return M(source, file, destination, vf, values)
+	end
+end
+
+function M:__init(source, file, destination, vf, values)
 	source = P.path(source, file)
 	self.template = P.Template(source, nil, nil)
 
-	layout_vf:consume(self, {
+	local prelude = {
 		name = string.match(file, "^(.*).html$") or file,
 		layout = nil,
-	})
-
-	local prelude = {}
-	self.template:prelude(prelude)
+	}
 	layout_vf:consume(self, prelude)
+	if values then
+		layout_vf:consume(self, values, vf)
+	end
+	self.template:prelude(prelude)
+	layout_vf:consume(self, prelude, vf)
 
 	Site.layout[self.name] = self
 	P.output(source, nil, P.FakeMedium(self))
