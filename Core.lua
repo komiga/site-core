@@ -65,9 +65,9 @@ end
 local tw_vf = P.ValueFilter("TemplateWrapper")
 :filter("minify", "boolean")
 
-function M.filter_post_collect(...)
+function M.group_post_collect(...)
 	local groups = {...}
-	return function(_, _, _)
+	return function()
 		for _, group in ipairs(groups) do
 			for _, v in pairs(group) do
 				v:post_collect()
@@ -108,7 +108,7 @@ end
 
 function M.setup_filters()
 	P.filter("core/bits", M.template_wrapper)
-	P.filter(M.filter_post_collect(
+	P.post_collect(M.group_post_collect(
 		Site.layout,
 		Site.pages
 	))
