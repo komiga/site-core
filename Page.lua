@@ -38,24 +38,25 @@ function M:__init(source, file, destination, vf, bucket, values)
 	source = P.path(source, file)
 	self.template = P.Template(source, nil, nil)
 
-	local prelude = {
+	vf = vf or page_vf
+	vf:consume(self, {
 		layout = nil,
 		sitemap = true,
 		md_disabled = false,
 		title = "",
 		url = "/" .. file,
 		nav = {},
-	}
-	page_vf:consume(self, prelude)
+	}, page_vf)
 	if values then
-		page_vf:consume(self, values, vf)
+		vf:consume(self, values, page_vf)
 	end
+	local prelude = {}
 	self.template:prelude(prelude)
-	page_vf:consume(self, prelude, vf)
+	vf:consume(self, prelude, page_vf)
 
 	self.bucket = bucket or Site.pages
 	self.bucket[self.url] = self
-	P.output(source, P.path(destination, file), self, self)
+	P.output(source, P.path(destination, self.url), self, self)
 end
 
 function M:post_collect()

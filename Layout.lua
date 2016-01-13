@@ -32,16 +32,18 @@ function M:__init(source, file, destination, vf, values)
 	source = P.path(source, file)
 	self.template = P.Template(source, nil, nil)
 
-	local prelude = {
-		name = string.match(file, "^(.*).html$") or file,
+	vf = vf or layout_vf
+	vf:consume(self, {
+		name = string.match(file, "^(.*)%.html$") or file,
 		layout = nil,
-	}
-	layout_vf:consume(self, prelude)
+	}, layout_vf)
 	if values then
-		layout_vf:consume(self, values, vf)
+		vf:consume(self, values, layout_vf)
 	end
+	local prelude = {}
 	self.template:prelude(prelude)
-	layout_vf:consume(self, prelude, vf)
+	vf:consume(self, prelude, layout_vf)
+	rawget(self.template.env, "_F")["C"] = self
 
 	Site.layout[self.name] = self
 	P.output(source, nil, P.FakeMedium(self))
