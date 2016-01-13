@@ -42,19 +42,24 @@ function M.capitalize(s)
 	return string.upper(string.sub(s, 1, 1)) .. string.sub(s, 2)
 end
 
+M.time_formats = {
+	iso = "%Y-%m-%dT%H:%M:%S%z",
+	human_date_format = "%d %B %Y",
+}
+
 function M.format_time(time, format)
 	U.type_assert(time, "number")
-	U.type_assert(time, "string")
+	U.type_assert(format, "string")
 
 	return os.date(format, time)
 end
 
 function M.format_time_human(time)
-	return M.format_time(time, Site.human_date_format)
+	return M.format_time(time, Site.human_date_format or M.time_formats.human_date_format)
 end
 
 function M.format_time_iso(time)
-	return M.format_time(time, "%FT%H:%M:%S%:z")
+	return M.format_time(time, M.time_formats.iso)
 end
 
 local tw_vf = P.ValueFilter("TemplateWrapper")
