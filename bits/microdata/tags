@@ -1,0 +1,5 @@
+minify = true
+---content---
+{% if C.prop then %}itemprop="{{ C.prop }}" {% end %}
+{% if C.scoped then %}itemscope {% end %}
+{% if C.itype then %}itemtype="http://schema.org/{{ C.itype }}"{% end %}

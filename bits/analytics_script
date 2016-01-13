@@ -1,0 +1,18 @@
+{% if not P.config.testing_mode and Site.analytics_id then %}
+<script type="text/javascript">
+	var _gaq=_gaq || [];
+	_gaq.push(["_setAccount", "{{ Site.analytics_id }}"]);
+	{% if Site.analytics_domain_name then %}
+	_gaq.push(["_setDomainName", "{{ Site.analytics_domain_name }}"]);
+	{% end %}
+	_gaq.push(["_trackPageview"]);
+
+	(function() {
+		var ga=document.createElement("script"); ga.type="text/javascript"; ga.async=true;
+		ga.src=("https:"==document.location.protocol ? "https://ssl" : "http://www")+".google-analytics.com/ga.js";
+		var s=document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+{% else %}
+<!-- GA tracker disabled -->
+{% end %}
