@@ -1,0 +1,11 @@
+minify = true
+---content---
+{% if not C.md_disabled then %}
+
+{@ "core/bits/microdata/tags", {
+	scoped = true,
+	itype = "WebPageElement",
+	prop = "mainContentOfPage",
+} @}
+
+{% end %}
