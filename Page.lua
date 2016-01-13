@@ -34,14 +34,14 @@ function M:__init(source, file, destination)
 		sitemap = true,
 		md_disabled = false,
 		title = "",
-		url = P.path(file),
+		url = "/" .. file,
 		nav = {},
 	}
 	self.template:prelude(prelude)
 	page_vf:consume(self, prelude)
 
 	Site.pages[self.url] = self
-	P.output(source, P.path(destination, self.url), self, self)
+	P.output(source, P.path(destination, file), self, self)
 end
 
 function M:post_collect()
