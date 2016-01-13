@@ -38,6 +38,10 @@ function M.trim(str)
 	return string.sub(str, (a or 0) + 1, (b or 0) - 1)
 end
 
+function M.capitalize(s)
+	return string.upper(string.sub(s, 1, 1)) .. string.sub(s, 2)
+end
+
 function M.format_time(time, format)
 	U.type_assert(time, "number")
 	U.type_assert(time, "string")
@@ -105,6 +109,7 @@ end
 _G.canonical_url = M.canonical_url
 _G.page_title = M.page_title
 _G.trim = M.trim
+_G.capitalize = M.capitalize
 _G.format_time = M.format_time
 _G.format_time_human = M.format_time_human
 _G.format_time_iso = M.format_time_iso
