@@ -1,10 +1,10 @@
 {% if not C.md_disabled then %}
-	<meta itemprop="name" content="{{ page_title(C.title) }}" />
-	<link itemprop="url" href="{{ canonical_url(C.url) }}" />
-	<link itemprop="image" href="{% if C.md_image then %}{{ C.md_image }}{% else %}{{ Site.md_image }}{% end %}" />
+	<meta itemprop="name" content="{! page_title(C.title) !}" />
+	<link itemprop="url" href="{! canonical_url(C.url) !}" />
+	<link itemprop="image" href="{% if C.md_image then %}{! C.md_image !}{% else %}{! Site.md_image !}{% end %}" />
 {% if C.description then %}
-	<meta itemprop="description" content="{{ C.description }}" />
+	<meta itemprop="description" content="{! C.description !}" />
 {% end %}
 
-	<meta itemprop="headline" content="{{ C.title ~= "" and C.title or Site.title }}" />
+	<meta itemprop="headline" content="{! C.title ~= "" and C.title or Site.title !}" />
 {% end %}
