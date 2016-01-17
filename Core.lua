@@ -4,7 +4,7 @@ local P = require "Pickle"
 local Page = require "core/Page"
 local M = U.module("Core")
 
-local function trim_index(slug)
+function M.trim_index(slug)
 	slug = string.gsub(slug, "index%.html$", "")
 	return slug
 end
@@ -121,6 +121,7 @@ function M.setup_filters()
 	))
 end
 
+_G.trim_index = M.trim_index
 _G.canonical_url = M.canonical_url
 _G.page_title = M.page_title
 _G.trim = M.trim
