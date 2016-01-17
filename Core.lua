@@ -42,6 +42,13 @@ function M.capitalize(s)
 	return string.upper(string.sub(s, 1, 1)) .. string.sub(s, 2)
 end
 
+function M.slugize(s)
+	s = string.lower(s)
+	s = string.gsub(s, "%s", "-")
+	s = string.gsub(s, "[^%a%-_]", "")
+	return s
+end
+
 M.time_formats = {
 	iso = "%Y-%m-%dT%H:%M:%S%z",
 	human_date_format = "%d %B %Y",
@@ -118,6 +125,7 @@ _G.canonical_url = M.canonical_url
 _G.page_title = M.page_title
 _G.trim = M.trim
 _G.capitalize = M.capitalize
+_G.slugize = M.slugize
 _G.format_time = M.format_time
 _G.format_time_human = M.format_time_human
 _G.format_time_iso = M.format_time_iso
