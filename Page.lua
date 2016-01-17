@@ -9,10 +9,11 @@ U.class(M)
 
 local page_vf = P.ValueFilter("Page")
 :filter("layout", {"string", Layout})
+:filter("file", "string")
 :filter("sitemap", "boolean")
 :filter("md_disabled", "boolean")
-:filter("title", "string")
 :filter("url", "string")
+:filter("title", "string")
 :filter("nav", "table", function(_, value)
 	for _, item in pairs(value) do
 		if not U.is_instance(item, NavItem) then
@@ -41,10 +42,11 @@ function M:__init(source, file, destination, vf, bucket, values)
 	vf = vf or page_vf
 	vf:consume(self, {
 		layout = nil,
+		file = "/" .. file,
 		sitemap = true,
 		md_disabled = false,
-		title = "",
 		url = "/" .. file,
+		title = "",
 		nav = {},
 	}, page_vf)
 	if values then
