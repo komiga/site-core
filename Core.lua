@@ -4,18 +4,19 @@ local P = require "Pickle"
 local Page = require "core/Page"
 local M = U.module("Core")
 
+M.base_url = nil
+
 function M.trim_index(slug)
 	slug = string.gsub(slug, "index%.html$", "")
 	return slug
 end
 
-M.base_url = nil
-
-function M.canonical_url(x)
+function M.canonical_url(x, real)
+	base = real and Site.url or M.base_url
 	if type(x) == "table" and x.url then
-		return trim_index(P.path(M.base_url, x.url))
+		return trim_index(P.path(base, x.url))
 	elseif U.is_type(x, "string") then
-		return trim_index(P.path(M.base_url, x))
+		return trim_index(P.path(base, x))
 	else
 		U.assert(false, "expected string or Page")
 	end
