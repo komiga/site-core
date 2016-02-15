@@ -43,7 +43,6 @@ function M:__init(source, file, destination, vf, values)
 	local prelude = {}
 	self.template:prelude(prelude)
 	vf:consume(self, prelude, layout_vf)
-	rawget(self.template.env, "_F")["C"] = self
 
 	Site.layout[self.name] = self
 	P.output(source, nil, P.FakeMedium(self))
