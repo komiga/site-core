@@ -34,8 +34,8 @@ function _G.page_title(title)
 end
 
 function _G.trim(str)
-	local _, a = string.find(str, '^%s*')
-	local b = string.find(str, '%s*$')
+	local _, a = string.find(str, "^%s*")
+	local b, _ = string.find(str, "%s*$")
 	return string.sub(str, (a or 0) + 1, (b or 0) - 1)
 end
 
@@ -46,7 +46,7 @@ end
 function _G.slugize(s)
 	s = string.lower(s)
 	s = string.gsub(s, "%s", "-")
-	s = string.gsub(s, "[^%a%-_]", "")
+	s = string.gsub(s, "[^%w%-_]", "")
 	return s
 end
 
