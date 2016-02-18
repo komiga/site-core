@@ -70,6 +70,28 @@ function _G.format_time_iso(time)
 	return format_time(time, M.time_formats.iso)
 end
 
+function _G.anchor_targeted(target, url, text)
+	U.type_assert(target, "string", true)
+	U.type_assert(url, "string")
+	U.type_assert(text, "string")
+	if target then
+		target = string.format([[target="_%s" ]], target)
+	end
+	return string.format([[<a %shref="%s">%s</a>]], target or "", url, text)
+end
+
+function _G.anchor(url, text)
+	U.type_assert(url, "string")
+	U.type_assert(text, "string")
+	return anchor_targeted(nil, url, text)
+end
+
+function _G.anchor_ext(url, text)
+	U.type_assert(url, "string")
+	U.type_assert(text, "string")
+	return anchor_targeted("blank", url, text)
+end
+
 local tw_vf = P.ValueFilter("TemplateWrapper")
 :filter("minify", "boolean")
 
