@@ -11,7 +11,7 @@ M.tpl_ref = [[<span class="para-ref" id="%s"><a href="#%s"></a></span>]]
 M.tpl_content = [[<h%d>%s%s</h%d>]]
 
 function M.make(page, name, text, url, id, level, add_nav)
-	U.type_assert(page, Page)
+	U.type_assert(page, Page, true)
 	U.type_assert(name, "string")
 	U.type_assert(text, "string")
 	U.type_assert(url, "string", true)
