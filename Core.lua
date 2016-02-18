@@ -6,12 +6,12 @@ local M = U.module("Core")
 
 M.base_url = nil
 
-function M.trim_index(slug)
+function _G.trim_index(slug)
 	slug = string.gsub(slug, "index%.html$", "")
 	return slug
 end
 
-function M.canonical_url(x, real)
+function _G.canonical_url(x, real)
 	base = real and Site.url or M.base_url
 	if type(x) == "table" and x.url then
 		return trim_index(P.path(base, x.url))
@@ -22,7 +22,7 @@ function M.canonical_url(x, real)
 	end
 end
 
-function M.page_title(title)
+function _G.page_title(title)
 	if type(title) == "table" then
 		title = title.title
 	end
@@ -33,17 +33,17 @@ function M.page_title(title)
 	end
 end
 
-function M.trim(str)
+function _G.trim(str)
 	local _, a = string.find(str, '^%s*')
 	local b = string.find(str, '%s*$')
 	return string.sub(str, (a or 0) + 1, (b or 0) - 1)
 end
 
-function M.capitalize(s)
+function _G.capitalize(s)
 	return string.upper(string.sub(s, 1, 1)) .. string.sub(s, 2)
 end
 
-function M.slugize(s)
+function _G.slugize(s)
 	s = string.lower(s)
 	s = string.gsub(s, "%s", "-")
 	s = string.gsub(s, "[^%a%-_]", "")
@@ -55,19 +55,19 @@ M.time_formats = {
 	human_date_format = "%d %B %Y",
 }
 
-function M.format_time(time, format)
+function _G.format_time(time, format)
 	U.type_assert(time, "number")
 	U.type_assert(format, "string")
 
 	return os.date(format, time)
 end
 
-function M.format_time_human(time)
-	return M.format_time(time, Site.human_date_format or M.time_formats.human_date_format)
+function _G.format_time_human(time)
+	return format_time(time, Site.human_date_format or M.time_formats.human_date_format)
 end
 
-function M.format_time_iso(time)
-	return M.format_time(time, M.time_formats.iso)
+function _G.format_time_iso(time)
+	return format_time(time, M.time_formats.iso)
 end
 
 local tw_vf = P.ValueFilter("TemplateWrapper")
@@ -96,7 +96,7 @@ function M.template_wrapper(source, file, destination)
 		if context.minify then
 			local func = template.content_func
 			template.content_func = function(...)
-				return M.trim(func(...))
+				return trim(func(...))
 			end
 		end
 	end
@@ -121,15 +121,5 @@ function M.setup_filters()
 		Site.pages
 	))
 end
-
-_G.trim_index = M.trim_index
-_G.canonical_url = M.canonical_url
-_G.page_title = M.page_title
-_G.trim = M.trim
-_G.capitalize = M.capitalize
-_G.slugize = M.slugize
-_G.format_time = M.format_time
-_G.format_time_human = M.format_time_human
-_G.format_time_iso = M.format_time_iso
 
 return M
