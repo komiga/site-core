@@ -56,10 +56,10 @@ M.time_formats = {
 }
 
 function _G.format_time(time, format)
-	U.type_assert(time, "number")
+	U.type_assert_any(time, {"number", "table"})
 	U.type_assert(format, "string")
 
-	return os.date(format, time)
+	return P.format_time(time, format)
 end
 
 function _G.format_time_human(time)
