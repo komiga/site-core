@@ -129,8 +129,7 @@ end
 function M.setup_site(f)
 	U.type_assert(f, "function")
 	_G.Site = {}
-	setfenv(f, Site)
-	f()
+	f(Site)
 	Site.layout = {}
 	Site.pages = {}
 	M.base_url = P.config.testing_mode and string.format("http://%s:%s", P.config.addr, P.config.port) or Site.url
