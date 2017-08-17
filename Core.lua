@@ -70,26 +70,32 @@ function _G.format_time_iso(time)
 	return format_time(time, M.time_formats.iso)
 end
 
-function _G.anchor_targeted(target, url, text)
+function _G.anchor_targeted(target, url, text, no_referrer)
 	U.type_assert(target, "string", true)
 	U.type_assert(url, "string")
 	U.type_assert(text, "string")
+	U.type_assert(no_referrer, "boolean", true)
+
+	local tags = ""
 	if target then
-		target = string.format([[target="_%s" ]], target)
+		tags = tags .. string.format([[target="_%s" ]], target)
 	end
-	return string.format([[<a %shref="%s">%s</a>]], target or "", url, text)
+	if no_referrer then
+		tags = tags .. [[rel="noreferrer" ]]
+	end
+	return string.format([[<a %shref="%s">%s</a>]], tags, url, text)
 end
 
-function _G.anchor(url, text)
+function _G.anchor(url, text, no_referrer)
 	U.type_assert(url, "string")
 	U.type_assert(text, "string")
-	return anchor_targeted(nil, url, text)
+	return anchor_targeted(nil, url, text, no_referrer)
 end
 
-function _G.anchor_ext(url, text)
+function _G.anchor_ext(url, text, no_referrer)
 	U.type_assert(url, "string")
 	U.type_assert(text, "string")
-	return anchor_targeted("blank", url, text)
+	return anchor_targeted("blank", url, text, no_referrer)
 end
 
 local tw_vf = P.ValueFilter("TemplateWrapper")
