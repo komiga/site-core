@@ -55,6 +55,22 @@ M.time_formats = {
 	human_date_format = "%d %B %Y",
 }
 
+function M.parse_time_vf_wrap(format)
+	U.type_assert(format, "string")
+	return function(_, value)
+		if type(value) == "table" then
+			return value
+		end
+		local time = P.parse_time(value, format)
+		if not time then
+			return nil, string.format("failed to parse time: %s", value)
+		end
+		return time
+	end
+end
+
+M.parse_time_vf_iso = parse_time_vf_wrap(M.time_formats.iso)
+
 function _G.format_time(time, format)
 	U.type_assert_any(time, {"number", "table"})
 	U.type_assert(format, "string")
