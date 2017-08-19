@@ -10,6 +10,7 @@ U.class(M)
 local page_vf = P.ValueFilter("Page")
 :filter("layout", {"string", Layout})
 :filter("file", "string")
+:filter("page_source", "string")
 :filter("sitemap", "boolean")
 :filter("md_disabled", "boolean")
 :filter("url", "string")
@@ -48,6 +49,7 @@ function M:__init(source, file, destination, vf, bucket, values)
 	vf:consume(self, {
 		layout = nil,
 		file = "/" .. file,
+		page_source = source,
 		sitemap = true,
 		md_disabled = false,
 		url = "/" .. file,
