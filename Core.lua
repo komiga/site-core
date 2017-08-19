@@ -69,7 +69,7 @@ function M.parse_time_vf_wrap(format)
 	end
 end
 
-M.parse_time_vf_iso = parse_time_vf_wrap(M.time_formats.iso)
+M.parse_time_vf_iso = M.parse_time_vf_wrap(M.time_formats.iso)
 
 function _G.format_time(time, format)
 	U.type_assert_any(time, {"number", "table"})
