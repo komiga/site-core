@@ -37,7 +37,12 @@ end
 
 function M:__init(source, file, destination, vf, bucket, values)
 	source = P.path(source, file)
-	self.template = P.Template(source, nil, nil)
+	self.section_stack = {}
+	self.template = P.Template(source, nil, nil, function(...)
+		if #self.section_stack ~= 0 then
+			P.error("%d unclosed sections at end of page: %s", #self.section_stack, source)
+		end
+	end)
 
 	vf = vf or page_vf
 	vf:consume(self, {
