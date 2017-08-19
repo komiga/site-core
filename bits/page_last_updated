@@ -1,0 +1,8 @@
+{% do 
+	local t = require("togo.filesystem").time_last_modified(C.page_source)
+	if t ~= 0 then %}
+		{! format_time_iso(t) !}
+	{% else %}
+		unknown
+	{% end
+end %}
