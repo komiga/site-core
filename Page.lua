@@ -63,6 +63,7 @@ function M:__init(source, file, destination, vf, bucket, values)
 	self.template:prelude(prelude)
 	vf:consume(self, prelude, page_vf)
 
+	self.nav_base = #self.nav
 	self.bucket = bucket or Site.pages
 	self.bucket[self.url] = self
 	P.output(source, P.path(destination, self.url), self, self)
@@ -87,6 +88,9 @@ function M:replace(repl, o, op)
 end
 
 function M:data(o)
+	while self.nav_base < #self.nav do
+		table.remove(self.nav)
+	end
 	return self.template:data(o)
 end
 
